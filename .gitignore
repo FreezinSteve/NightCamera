@@ -1,0 +1,14 @@
+#logs#
+######
+*.txt
+
+#Images and Video#
+##################
+*.mp4
+*.h264
+*.jpg
+
+#Configuration files#
+####################
+conf2.json
+
