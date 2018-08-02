@@ -15,6 +15,7 @@ import time
 import cv2
 import shutil
 import os
+import sys
 
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
