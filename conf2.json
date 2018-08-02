@@ -1,0 +1,21 @@
+{
+	"show_video": false,
+	"use_dropbox": false,
+	"dropbox_key": "YOUR_DROPBOX_KEY",
+	"dropbox_secret": "YOUR_DROPBOX_SECRET",
+	"dropbox_base_path": "YOUR_DROPBOX_APP_PATH",
+	"use_folder": true,
+	"folder_path": "/media/pishare/Media/NightCam",
+	"save_as_video": true,
+	"dump_picture": true,
+	"dump_file": "capture.jpg",
+	"video_length": 30,
+	"min_upload_seconds": 3.0,
+	"min_motion_frames": 4,
+	"camera_warmup_time": 2.5,
+	"delta_thresh": 5,
+	"resolution": [640, 480],
+	"fps": 12,
+	"min_area": 5000,
+	"rotation": 270
+}

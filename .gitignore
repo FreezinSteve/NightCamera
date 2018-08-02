@@ -8,7 +8,3 @@
 *.h264
 *.jpg
 
-#Configuration files#
-####################
-conf2.json
-
