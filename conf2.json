@@ -5,7 +5,7 @@
 	"dropbox_secret": "YOUR_DROPBOX_SECRET",
 	"dropbox_base_path": "YOUR_DROPBOX_APP_PATH",
 	"use_folder": true,
-	"folder_path": "/media/pishare/Media/NightCam",
+	"folder_path": "/media/pishare/NightCam",
 	"save_as_video": true,
 	"dump_picture": true,
 	"dump_file": "capture.jpg",

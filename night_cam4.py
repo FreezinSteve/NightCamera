@@ -16,6 +16,7 @@ import cv2
 import shutil
 import os
 import sys
+import glob
 
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
@@ -177,13 +178,14 @@ def saveToVideo():
     # Save video to file
     #t = TempImage(ext=".h264")
     timestamp = datetime.datetime.now()
+    ts = timestamp.strftime("%y-%m-%d_%H%M%S")
     rawFile = "{base_path}/{timestamp}{ext}".format(base_path=sys.path[0],
-			timestamp=timestamp.strftime("%y-%m-%d %H%M%S"), ext=".h264")
+			timestamp=ts, ext=".h264")
 
-    print("Saving to RAW file" + rawFile.path)
+    print("Saving to RAW file " + rawFile)
     tmr = Timer(conf["video_length"] * 2, timeout);
 
-    camera.start_recording(rawFile.path, quality=10, bitrate=17000000)
+    camera.start_recording(rawFile, quality=10, bitrate=17000000)
 
     camera.wait_recording(conf["video_length"])
     camera.stop_recording()
@@ -191,8 +193,8 @@ def saveToVideo():
 
     # Now use MP4Box to convert to MP4
     print("Converting to MP4")
-    mp4File = rawFile.path.replace(".h264", ".mp4")
-    os.system("MP4Box -add {source} {dest} -fps {fps}".format(source=rawFile.path, dest=mp4File, fps=conf["fps"]))
+    mp4File = rawFile.replace(".h264", ".mp4")
+    os.system("MP4Box -add {source} {dest} -fps {fps}".format(source=rawFile, dest=mp4File, fps=conf["fps"]))
 
 
     destFile = "{dest}/{timestamp}.mp4".format(dest=conf["folder_path"], timestamp=ts)
@@ -204,8 +206,14 @@ def saveToVideo():
     except:
         print("Error copying file to {dest}".format(dest=conf["folder_path"]))
 
-    # Clean up temporary file
-    os.remove(rawFile.path)
+    # Clean up temporary files
+    for fl in glob.glob(sys.path[0] + "/*.h264"):       
+        os.remove(fl)
+
+    # Clean up video files
+    for fl in glob.glob(sys.path[0] + "/*.mp4"):
+        os.remove(fl)
+
     return
 
 
