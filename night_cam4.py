@@ -15,6 +15,7 @@ import time
 import cv2
 import shutil
 import os
+import sys
 
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
@@ -176,8 +177,8 @@ def saveToVideo():
     # Save video to file
     #t = TempImage(ext=".h264")
     timestamp = datetime.datetime.now()
-    ts = timestamp.strftime("%y-%m-%d %H%M%S")
-    rawFile = os.path.join(sys.path[0], ts + ".h264")
+    rawFile = "{base_path}/{timestamp}{ext}".format(base_path=sys.path[0],
+			timestamp=timestamp.strftime("%y-%m-%d %H%M%S"), ext=".h264")
 
     print("Saving to RAW file" + rawFile.path)
     tmr = Timer(conf["video_length"] * 2, timeout);
