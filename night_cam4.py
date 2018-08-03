@@ -17,6 +17,7 @@ import shutil
 import os
 import sys
 import glob
+import subprocess
 
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
@@ -176,11 +177,11 @@ def saveToVideo():
             return
 
     # Save video to file
-    #t = TempImage(ext=".h264")
+    # t = TempImage(ext=".h264")
     timestamp = datetime.datetime.now()
     ts = timestamp.strftime("%y-%m-%d_%H%M%S")
     rawFile = "{base_path}/{timestamp}{ext}".format(base_path=sys.path[0],
-			timestamp=ts, ext=".h264")
+                                                    timestamp=ts, ext=".h264")
 
     print("Saving to RAW file " + rawFile)
     tmr = Timer(conf["video_length"] * 2, timeout);
@@ -196,23 +197,25 @@ def saveToVideo():
     mp4File = rawFile.replace(".h264", ".mp4")
     os.system("MP4Box -add {source} {dest} -fps {fps}".format(source=rawFile, dest=mp4File, fps=conf["fps"]))
 
+    # destFile = "{dest}/{timestamp}.mp4".format(dest=conf["folder_path"], timestamp=ts)
+    #
+    # try:
+    #     print("Copying to " + destFile)
+    #     shutil.copyfile(mp4File, destFile)
+    #     os.remove(mp4File)
+    # except:
+    #     print("Error copying file to {dest}".format(dest=conf["folder_path"]))
+    #
+    # # Clean up temporary files
+    # for fl in glob.glob(sys.path[0] + "/*.h264"):
+    #     os.remove(fl)
+    #
+    # # Clean up video files
+    # for fl in glob.glob(sys.path[0] + "/*.mp4"):
+    #     os.remove(fl)
 
-    destFile = "{dest}/{timestamp}.mp4".format(dest=conf["folder_path"], timestamp=ts)
-
-    try:
-        print("Copying to " + destFile)
-        shutil.copyfile(mp4File, destFile)
-        os.remove(mp4File)
-    except:
-        print("Error copying file to {dest}".format(dest=conf["folder_path"]))
-
-    # Clean up temporary files
-    for fl in glob.glob(sys.path[0] + "/*.h264"):       
-        os.remove(fl)
-
-    # Clean up video files
-    for fl in glob.glob(sys.path[0] + "/*.mp4"):
-        os.remove(fl)
+    # Copy as a subprocesses so we can start again straight away
+    subprocess.call(sys.path[0] + "/copyfiles.sh", shell=True)
 
     return
 
@@ -239,6 +242,6 @@ while lookForMotion():
                 else:
                     saveToFile()
         else:
-            print("Not within capture hours 9pm to 8am")
+            print("Not within capture hours 10pm to 8am")
     except:
         print("Unexpected error:", sys.exc_info()[0])
